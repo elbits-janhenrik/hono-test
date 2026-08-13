@@ -1,9 +1,9 @@
-import { Hono } from 'hono'
+import { Hono as App } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import { registerUserEndpoints } from './features/register-endpoints'
 
 
-export function registerRoutes(app: Hono) {
+export function registerRoutes(app: App) {
   app.get('/', (c) => {
     return c.json({ message: 'Hono + Zod API is running' })
   })

@@ -28,3 +28,4 @@ local-config/.generated/
 
 .pi-subagents/
 
+.env

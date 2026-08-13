@@ -1,3 +1,6 @@
+import prisma from '../../database/prisma'
+import { describeRoute, resolver } from 'hono-openapi'
+import { User } from '@prisma/client'
 import { z } from 'zod'
 
 export const PaginationQuerySchema = z.object({
@@ -6,18 +9,40 @@ export const PaginationQuerySchema = z.object({
   search: z.string().optional(),
 })
 
-export async function getUsers(c : any) {
-  // const { page, limit, search } = c.req.valid('query')
+export const UsersResultSchema = z.object({
+  data: z.array(z.object({
+    id: z.string(),
+    name: z.string(),
+    email: z.string(),
+    phone: z.string().nullable().optional(),
+  })),
+})
 
-  const data = {
-    // page,
-    // limit,
-    // search: search ?? null,
-    data: [
-      { id: '1', name: 'Alice', email: 'alice@example.com' },
-      { id: '2', name: 'Bob', email: 'bob@example.com' },
-    ]
-  }
-  
-  return c.json(data);
+// export type UsersResult = z.infer<typeof UsersResultSchema>
+
+export function getUsersDescription() {
+  return describeRoute({
+    summary: 'Returns all or selected users',
+    responses: {
+      200: {
+        description: 'Success',
+        content: {
+          'application/json': {
+            schema: resolver(UsersResultSchema),
+          },
+        },
+      },
+    },
+  })
+}
+
+// Handler
+
+export async function getUsersHandler(c: any) : Promise<any> {
+  const users : Array<User> = await prisma.user.findMany({
+    select: { id: true, name: true, email: true, phone: true }
+  })
+
+  //const payload = { data: users.map(u => ({ ...u, id: String(u.id) })) }
+  return c.json(UsersResultSchema.parse(users))
 }

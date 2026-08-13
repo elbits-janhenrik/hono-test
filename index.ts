@@ -1,8 +1,8 @@
-import { Hono } from 'hono'
+import { Hono as App } from 'hono'
 import { serve } from '@hono/node-server'
 import { registerRoutes } from './routes'
 
-const app = new Hono()
+const app = new App()
 
 registerRoutes(app)
 

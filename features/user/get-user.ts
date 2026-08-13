@@ -1,15 +1,39 @@
-import { z } from 'zod'
+// import { describeRoute, resolver } from "hono-openapi";
+// import { z } from "zod";
 
-export async function getUser(c: any) {
-  const { id } = c.req.valid("param");
+// export const getUserResultSchema = z.object({
+//   id: z.string(),
+//   name: z.string(),
+//   email: z.string(),
+//   phone: z.string().nullable().optional(),
+// });
 
-  return c.json({
-    id,
-    name: "John Doe",
-    email: "john@example.com",
-  });
-}
+// export function getUserDescription() {
+//   return describeRoute({
+//     summary: "Returns all or selected users",
+//     responses: {
+//       200: {
+//         description: "Success",
+//         content: {
+//           "application/json": {
+//             schema: resolver(getUserResultSchema),
+//           },
+//         },
+//       },
+//     },
+//   });
+// }
 
-export const UserIdParamSchema = z.object({
-  id: z.string(),
-})
+// export async function getUser(c: any) {
+//   const { id } = c.req.valid("param");
+
+//   return c.json({
+//     id,
+//     name: "John Doe",
+//     email: "john@example.com",
+//   });
+// }
+
+// export const UserIdParamSchema = z.object({
+//   id: z.string(),
+// });
