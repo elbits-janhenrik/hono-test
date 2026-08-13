@@ -1,0 +1,30 @@
+.pulumibackend
+/bin
+build
+dist
+*.tsbuildinfo
+
+.DS_Store
+
+# dependencies
+node_modules
+.envrc
+.idea
+
+# generated durin build
+packages/core/src/states/mermaidStateMachineDiagram.js
+
+apps/**/local.settings.json
+apps/**/vitestReport/**
+packages/**/vitestReport/**
+apps/frontend/public/config.json
+packages/**/coverage/**
+
+# personal ignored patters
+xxxxx.*
+
+# dx-rendered per-instance frontend configs
+local-config/.generated/
+
+.pi-subagents/
+
