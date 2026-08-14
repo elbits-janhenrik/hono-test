@@ -19,7 +19,7 @@
       "name": "Debug (tsx watch)",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["tsx", "watch"],
-      "args": ["index.ts"],
+      "args": ["src/index.ts"],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**", "node_modules/**"],
