@@ -3,13 +3,13 @@ import { describeRoute, resolver } from 'hono-openapi'
 import { User } from '@prisma/client'
 import { z } from 'zod'
 
-export const PaginationQuerySchema = z.object({
+export const paginationQuerySchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(100).default(10),
   search: z.string().optional(),
 })
 
-export const UsersResultSchema = z.object({
+export const getUsersResultSchema = z.object({
   data: z.array(z.object({
     id: z.string(),
     name: z.string(),
@@ -28,7 +28,7 @@ export function getUsersDescription() {
         description: 'Success',
         content: {
           'application/json': {
-            schema: resolver(UsersResultSchema),
+            schema: resolver(getUsersResultSchema),
           },
         },
       },
@@ -43,6 +43,5 @@ export async function getUsersHandler(c: any) : Promise<any> {
     select: { id: true, name: true, email: true, phone: true }
   })
 
-  //const payload = { data: users.map(u => ({ ...u, id: String(u.id) })) }
-  return c.json(UsersResultSchema.parse(users))
+  return c.json(getUsersResultSchema.parse(users))
 }

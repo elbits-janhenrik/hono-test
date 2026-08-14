@@ -2,17 +2,20 @@ import { Hono as App } from "hono";
 import { openAPIRouteHandler, validator } from "hono-openapi";
 import { Scalar } from "@scalar/hono-api-reference";
 
-import { getUsersHandler, getUsersDescription, PaginationQuerySchema } from "./user/get-users";
-import { getUserHandler, getUserParamsSchema, getUserDescription } from "./user/get-user-from-db";
-import { createUser, CreateUserSchema } from "./user/create-user";
+import { getUsersHandler, getUsersDescription, paginationQuerySchema } from "./user/get-users";
+import { getUserHandler, getUserDescription, getUserParamsSchema } from "./user/get-user";
+import { createUserHandler, createUserDescription, createUserRequestSchema } from "./user/create-user";
+import { authMiddleware } from '../middleware/auth'
 
 export function registerUserEndpoints(app: App) {
-  app.get("/users", getUsersDescription(), validator("query", PaginationQuerySchema), getUsersHandler);
+  app.get("/users", getUsersDescription(), validator("query", paginationQuerySchema), authMiddleware, getUsersHandler);
 
-  app.get("/users/:id", getUserDescription(), validator("param", getUserParamsSchema), getUserHandler);
+  app.get("/users/:id", getUserDescription(), validator("param", getUserParamsSchema), authMiddleware, getUserHandler);
 
-  app.post("/users", validator("json", CreateUserSchema), createUser);
+  app.post("/users", createUserDescription(), validator("json", createUserRequestSchema), authMiddleware, createUserHandler);
+}
 
+export function registerScalarDocs(app: App) {
   app.get(
     "/openapi",
     openAPIRouteHandler(app, {

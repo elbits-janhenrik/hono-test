@@ -18,6 +18,6 @@
     "prisma:studio": "prisma studio"
   },
   "prettier": {
-    "printWidth": 200
+    "printWidth": 240
   }
 }

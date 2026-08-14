@@ -1,39 +1,46 @@
-// import { describeRoute, resolver } from "hono-openapi";
-// import { z } from "zod";
+import prisma from "../../database/prisma";
+import { User } from "@prisma/client";
+import { describeRoute, resolver } from "hono-openapi";
+import { z } from "zod";
 
-// export const getUserResultSchema = z.object({
-//   id: z.string(),
-//   name: z.string(),
-//   email: z.string(),
-//   phone: z.string().nullable().optional(),
-// });
+export const getUserParamsSchema = z.object({
+  id: z.string(),
+});
 
-// export function getUserDescription() {
-//   return describeRoute({
-//     summary: "Returns all or selected users",
-//     responses: {
-//       200: {
-//         description: "Success",
-//         content: {
-//           "application/json": {
-//             schema: resolver(getUserResultSchema),
-//           },
-//         },
-//       },
-//     },
-//   });
-// }
+export const getUserResultSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.string(),
+  phone: z.string().nullable().optional(),
+});
 
-// export async function getUser(c: any) {
-//   const { id } = c.req.valid("param");
+export function getUserDescription() {
+  return describeRoute({
+    summary: "Returns user by ID",
+    responses: {
+      200: {
+        description: "Success",
+        content: {
+          "application/json": {
+            schema: resolver(getUserResultSchema),
+          },
+        },
+      },
+    },
+  });
+}
 
-//   return c.json({
-//     id,
-//     name: "John Doe",
-//     email: "john@example.com",
-//   });
-// }
+// Handler
 
-// export const UserIdParamSchema = z.object({
-//   id: z.string(),
-// });
+export async function getUserHandler(c: any): Promise<any> {
+  const { id } = c.req.valid("param");
+
+  const numericId = typeof id === "string" ? Number(id) : id;
+  if (Number.isNaN(numericId)) return null;
+
+  const user: User | null = await prisma.user.findUnique({ where: { id: numericId } });
+
+  var result = user ? getUserResultSchema.parse(user) : null;
+
+  return c.json(result);
+}
