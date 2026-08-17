@@ -25,3 +25,4 @@ export function registerScalarDocs(app: App) {
 
   app.get("/docs", Scalar({ url: "/openapi", theme: "purple", pageTitle: "My API" }));
 }
+

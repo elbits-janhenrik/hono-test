@@ -25,6 +25,19 @@
       "skipFiles": ["<node_internals>/**", "node_modules/**"],
       "sourceMaps": true,
       "restart": true
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run unit tests (npx vitest run)",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vitest", "run"],
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**", "node_modules/**"],
+      "sourceMaps": true,
+      "restart": true
     }
   ]
 }

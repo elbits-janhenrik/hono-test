@@ -11,7 +11,7 @@ export const paginationQuerySchema = z.object({
 
 export const getUsersResultSchema = z.object({
   data: z.array(z.object({
-    id: z.string(),
+    id: z.number(),
     name: z.string(),
     email: z.string(),
     phone: z.string().nullable().optional(),
@@ -43,5 +43,5 @@ export async function getUsersHandler(c: any) : Promise<any> {
     select: { id: true, name: true, email: true, phone: true }
   })
 
-  return c.json(getUsersResultSchema.parse(users))
+  return c.json(getUsersResultSchema.parse({ data: users }))
 }

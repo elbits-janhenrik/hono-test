@@ -1,0 +1,12 @@
+services:
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    container_name: otel-collector
+    ports:
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+      - "55679:55679" # zPages debug UI
+    volumes:
+      - ./otel-config.yml:/etc/otelcol-contrib/config.yml
+    command: ["--config=/etc/otelcol-contrib/config.yml"]
+    restart: unless-stopped

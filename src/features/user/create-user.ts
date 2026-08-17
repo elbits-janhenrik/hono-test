@@ -2,7 +2,6 @@ import prisma from "../../database/prisma";
 import { User, Prisma } from "@prisma/client";
 import { z } from 'zod'
 import { describeRoute, resolver } from "hono-openapi";
-import type { JwtVariables } from 'hono/jwt'
 
 export const createUserRequestSchema = z.object({
   name: z.string(),
