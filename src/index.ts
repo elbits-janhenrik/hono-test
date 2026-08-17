@@ -4,19 +4,15 @@ import { registerRoutes } from './routes'
 import { startEventProcessor } from './features/events/process-events-job';
 import { registerTelemetry, stopTelemetry, startTelemetry } from './middleware/telemetry';
 
-
-startTelemetry();
-
 const app = new App();
 
+startTelemetry();
 registerTelemetry(app);
-
-
 registerRoutes(app);
 
 const eventController = startEventProcessor();
 
-const shutdown = () => {
+const onShutdown = () => {
   console.log('Shutdown requested — stopping background jobs');
   try {
     eventController.abort();
@@ -26,8 +22,8 @@ const shutdown = () => {
   stopTelemetry().catch(err => console.error('Error shutting down telemetry', err));
 };
 
-process.on('SIGINT', shutdown);
-process.on('SIGTERM', shutdown);
+process.on('SIGINT', onShutdown);
+process.on('SIGTERM', onShutdown);
 
 serve({
   fetch: app.fetch,

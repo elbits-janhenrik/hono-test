@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 // Mock the Prisma client module used by the handler
-vi.mock('../../../database/prisma', () => ({
+vi.mock('../../database/prisma', () => ({
   default: {
     user: {
       findMany: vi.fn(),
@@ -19,7 +19,7 @@ describe('getUsersHandler', () => {
 
   it('queries prisma and returns users wrapped in `data`', async () => {
     const fakeUsers = [
-      { id: 1, name: 'Alice', email: 'alice@example.com', phone: null },
+      { id: 1, name: 'Alice Test', email: 'alice-test@example.com', phone: null },
     ]
 
     // Make sure the mocked `findMany` resolves the fake users
