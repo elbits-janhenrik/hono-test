@@ -14,12 +14,6 @@ importers:
       '@hono/standard-validator':
         specifier: ^0.4.0
         version: 0.4.0(@standard-schema/spec@1.1.0)(hono@4.13.1)
-      '@hono/zod-openapi':
-        specifier: ^1.5.2
-        version: 1.5.2(hono@4.13.1)(zod@4.4.3)
-      '@hono/zod-validator':
-        specifier: ^0.9.0
-        version: 0.9.0(hono@4.13.1)(zod@4.4.3)
       '@opentelemetry/api':
         specifier: ^1.1.0
         version: 1.9.1
@@ -59,11 +53,6 @@ importers:
         version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@26.2.0)(vite@8.2.1(@types/node@26.2.0)(yaml@2.9.0))
 
 packages:
-
-  '@asteasolutions/zod-to-openapi@8.5.0':
-    resolution: {integrity: sha512-SABbKiObg5dLRiTFnqiW1WWwGcg1BJfmHtT2asIBnBHg6Smy/Ms2KHc650+JI4Hw7lSkdiNebEGXpwoxfben8Q==}
-    peerDependencies:
-      zod: ^4.0.0
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -150,19 +139,6 @@ packages:
     peerDependencies:
       '@standard-schema/spec': ^1.0.0
       hono: '>=4.11.2'
-
-  '@hono/zod-openapi@1.5.2':
-    resolution: {integrity: sha512-FPlspM6+qObGoMfux+0SSE0of0tGO+BVo3havhKzZMxRyz/ql89kuCd/7POd70aW3T4kz/aVL6gNZ6sVd0ItUQ==}
-    engines: {node: '>=16.0.0'}
-    peerDependencies:
-      hono: '>=4.10.0'
-      zod: ^4.0.0
-
-  '@hono/zod-validator@0.9.0':
-    resolution: {integrity: sha512-n0ZSXmCiHVIp4Y5wlOOyZCeTd/rsawA/qW1cipB8QOYKZ9N8Tk0nZUZCXho9cu374AN4JpDNKioNKBJ/W+LBug==}
-    peerDependencies:
-      hono: '>=4.11.2'
-      zod: ^3.25.0 || ^4.0.0
 
   '@jest/diff-sequences@30.4.0':
     resolution: {integrity: sha512-zOpzlfUs45l6u7jm39qr87JCHUDsaeCtvL+kQe/Vn9jSnRB4/5IPXISm0h9I1vZW/o00Kn4UTJ2MOlhnUGwv3g==}
@@ -1564,9 +1540,6 @@ packages:
   openapi-types@12.1.3:
     resolution: {integrity: sha512-N4YtSYJqghVu4iek2ZUvcN/0aqH1kRDuNqzcycDxhOUpg7GdvLa2F3DgS6yBNhInhv2r/6I0Flkn7CqL8+nIcw==}
 
-  openapi3-ts@4.6.1:
-    resolution: {integrity: sha512-XW9MOldkhoICNeXVzzmXzmOW5G73ppOEGmh7fLCqHjgfdEYCGGN+00MlVCeUZgovjjfC56j9tvtDt1zGabNjjA==}
-
   opentracing@0.14.7:
     resolution: {integrity: sha512-vz9iS7MJ5+Bp1URw8Khvdyw1H/hGvzHWlKQ7eRrQojSCDL1/SrWfrY9QebLw97n2deyRtzHRC3MkQfVNUCo91Q==}
     engines: {node: '>=0.10'}
@@ -1879,11 +1852,6 @@ packages:
 
 snapshots:
 
-  '@asteasolutions/zod-to-openapi@8.5.0(zod@4.4.3)':
-    dependencies:
-      openapi3-ts: 4.6.1
-      zod: 4.4.3
-
   '@babel/code-frame@7.29.7':
     dependencies:
       '@babel/helper-validator-identifier': 7.29.7
@@ -1988,19 +1956,6 @@ snapshots:
     dependencies:
       '@standard-schema/spec': 1.1.0
       hono: 4.13.1
-
-  '@hono/zod-openapi@1.5.2(hono@4.13.1)(zod@4.4.3)':
-    dependencies:
-      '@asteasolutions/zod-to-openapi': 8.5.0(zod@4.4.3)
-      '@hono/zod-validator': 0.9.0(hono@4.13.1)(zod@4.4.3)
-      hono: 4.13.1
-      openapi3-ts: 4.6.1
-      zod: 4.4.3
-
-  '@hono/zod-validator@0.9.0(hono@4.13.1)(zod@4.4.3)':
-    dependencies:
-      hono: 4.13.1
-      zod: 4.4.3
 
   '@jest/diff-sequences@30.4.0': {}
 
@@ -3537,10 +3492,6 @@ snapshots:
 
   openapi-types@12.1.3: {}
 
-  openapi3-ts@4.6.1:
-    dependencies:
-      yaml: 2.9.0
-
   opentracing@0.14.7: {}
 
   path-parse@1.0.7: {}
@@ -3782,7 +3733,8 @@ snapshots:
 
   y18n@5.0.8: {}
 
-  yaml@2.9.0: {}
+  yaml@2.9.0:
+    optional: true
 
   yargs-parser@21.1.1: {}
 
