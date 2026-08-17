@@ -10,7 +10,7 @@
       "args": ["${file}"],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
-      "skipFiles": ["<node_internals>/**", "node_modules/**"],
+      "skipFiles": ["<node_internals>/**", "node_modules/**", "**/*.test.ts", "**/*.spec.ts", "tests/**"],
       "sourceMaps": true
     },
     {
@@ -22,7 +22,7 @@
       "args": ["src/index.ts"],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
-      "skipFiles": ["<node_internals>/**", "node_modules/**"],
+      "skipFiles": ["<node_internals>/**", "node_modules/**", "**/*.test.ts", "**/*.spec.ts", "tests/**"],
       "sourceMaps": true,
       "restart": true
     },

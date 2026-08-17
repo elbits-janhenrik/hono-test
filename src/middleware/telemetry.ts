@@ -10,10 +10,13 @@ export const tracerName = process.env.OTEL_SERVICE_NAME || 'hono-test';
 
 
 const sdk = new NodeSDK({
-  instrumentations: [getNodeAutoInstrumentations()],
+  instrumentations: [getNodeAutoInstrumentations({
+      "@opentelemetry/instrumentation-grpc": { enabled: false },
+      "@opentelemetry/instrumentation-fs": { enabled: false },
+    })],
 });
 
-export async function registerTelemetry(app: App) {
+export function registerTelemetry(app: App) {
   const tracer = trace.getTracer(tracerName);
   app.use("*", async (c, next) => {
     const span = tracer.startSpan(`${c.req.method} ${c.req.url}`);
@@ -32,18 +35,18 @@ export async function registerTelemetry(app: App) {
   });
 }
 
-export async function startTelemetry() {
+export function startTelemetry() {
   try {
-    await sdk.start();
+    sdk.start();
     console.log('OpenTelemetry started');
   } catch (err) {
     console.error('Failed to start OpenTelemetry', err);
   }
 }
 
-export async function stopTelemetry() {
+export function stopTelemetry() {
   try {
-    await sdk.shutdown();
+    sdk.shutdown();
     console.log('OpenTelemetry shut down');
   } catch (err) {
     console.error('Error shutting down OpenTelemetry', err);

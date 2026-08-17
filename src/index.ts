@@ -4,9 +4,11 @@ import { registerRoutes } from './routes'
 import { startEventProcessor } from './features/events/process-events-job';
 import { registerTelemetry, stopTelemetry, startTelemetry } from './middleware/telemetry';
 
-const app = new App();
 
 startTelemetry();
+
+const app = new App();
+
 registerTelemetry(app);
 registerRoutes(app);
 
@@ -19,7 +21,11 @@ const onShutdown = () => {
   } catch (err) {
     console.error('Error aborting event processor', err);
   }
-  stopTelemetry().catch(err => console.error('Error shutting down telemetry', err));
+  try {
+    stopTelemetry();
+  } catch (err) {
+    console.error('Error stopping telemetry', err);
+  }
 };
 
 process.on('SIGINT', onShutdown);
