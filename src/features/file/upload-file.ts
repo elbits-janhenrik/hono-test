@@ -1,5 +1,4 @@
 import prisma from "../../database/prisma";
-import { User, Prisma } from "@prisma/client";
 import { z } from "zod";
 import { describeRoute, resolver } from "hono-openapi";
 
@@ -58,13 +57,18 @@ export async function uploadFileHandler(c: any) {
   const filename = `${Date.now()}-${file.name}`;
   // await writeFile(join(process.cwd(), 'uploads', filename), buffer)
 
-  
+  const uploadedFile = await prisma.fileUpload.create({
+    data: {
+        fileName: filename,
+        contents: buffer,
+    },
+  });
 
   return c.json({
-    name: file.name,
-    size: file.size,
+    id: uploadedFile.id,
+    name: uploadedFile.fileName,
+    size: uploadedFile.contents.length,
     type: file.type,
-    description,
     savedAs: filename,
   });
 }

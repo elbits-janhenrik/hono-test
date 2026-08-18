@@ -16,6 +16,7 @@ export const getUserResultSchema = z.object({
 
 export function getUserDescription() {
   return describeRoute({
+    tags: ["Users"],
     summary: "Returns user by ID",
     responses: {
       200: {

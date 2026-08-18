@@ -1,6 +1,6 @@
 import prisma from '../../database/prisma'
-import { describeRoute, resolver } from 'hono-openapi'
 import { User } from '@prisma/client'
+import { describeRoute, resolver } from 'hono-openapi'
 import { z } from 'zod'
 
 export const paginationQuerySchema = z.object({
@@ -22,6 +22,7 @@ export const getUsersResultSchema = z.object({
 
 export function getUsersDescription() {
   return describeRoute({
+    tags: ["Users"],
     summary: 'Returns all or selected users',
     responses: {
       200: {

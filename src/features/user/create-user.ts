@@ -18,6 +18,7 @@ export const createUserResultSchema = z.object({
 
 export function createUserDescription() {
   return describeRoute({
+    tags: ["Users"],
     summary: "Creates a new user",
     responses: {
       200: {
