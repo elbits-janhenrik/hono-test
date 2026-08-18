@@ -5,6 +5,7 @@ import { Scalar } from "@scalar/hono-api-reference";
 import { getUsersHandler, getUsersDescription, paginationQuerySchema } from "./user/get-users";
 import { getUserHandler, getUserDescription, getUserParamsSchema } from "./user/get-user";
 import { createUserHandler, createUserDescription, createUserRequestSchema } from "./user/create-user";
+import { uploadFileDescription, uploadFileHandler, uploadFileRequestSchema } from "./file/upload-file";
 import { authMiddleware } from '../middleware/auth'
 
 export function registerUserEndpoints(app: App) {
@@ -14,6 +15,11 @@ export function registerUserEndpoints(app: App) {
 
   app.post("/users", createUserDescription(), validator("json", createUserRequestSchema), authMiddleware, createUserHandler);
 }
+
+export function registerFileEndpoints(app: App) {
+  app.post("/files", uploadFileDescription(), validator('form', uploadFileRequestSchema), authMiddleware, uploadFileHandler);
+}
+
 
 export function registerScalarDocs(app: App) {
   app.get(

@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { Hono as App } from 'hono'
 import { serve } from '@hono/node-server'
 import { registerRoutes } from './routes'

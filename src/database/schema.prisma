@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -12,4 +11,10 @@ model User {
   name  String
   email String @unique
   phone String?
+}
+
+model FileUpload {
+  id        Int    @id @default(autoincrement())
+  fileName  String
+  contents  Bytes
 }

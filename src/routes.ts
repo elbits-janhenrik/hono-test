@@ -1,6 +1,6 @@
 import { Hono as App } from 'hono'
 import { HTTPException } from 'hono/http-exception'
-import { registerUserEndpoints, registerScalarDocs } from './features/register-endpoints'
+import { registerUserEndpoints, registerFileEndpoints, registerScalarDocs } from './features/register-endpoints'
 
 
 export function registerRoutes(app: App) {
@@ -10,6 +10,8 @@ export function registerRoutes(app: App) {
 
 
   registerUserEndpoints(app);
+
+  registerFileEndpoints(app);
 
   registerScalarDocs(app);
 
