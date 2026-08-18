@@ -19,3 +19,10 @@ model FileUpload {
   fileName  String
   contents  Bytes
 }
+
+model EventInbox {
+  id          Int   @id @default(autoincrement())
+  eventType   String
+  createdDate DateTime
+  Payload     Json
+}

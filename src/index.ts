@@ -2,8 +2,9 @@ import 'dotenv/config'
 import { Hono as App } from 'hono'
 import { serve } from '@hono/node-server'
 import { registerRoutes } from './routes'
-import { startEventProcessor } from './features/events/process-events-job';
+import { startBackgroundWorker } from './features/jobs/background-worker';
 import { registerTelemetry, stopTelemetry, startTelemetry } from './middleware/telemetry';
+import { startEventInboxListener } from './features/event-inbox/event-inbox-processor';
 
 
 startTelemetry();
@@ -13,12 +14,14 @@ const app = new App();
 registerTelemetry(app);
 registerRoutes(app);
 
-const eventController = startEventProcessor();
+const backgroundWorker = startBackgroundWorker();
+
+startEventInboxListener()
 
 const onShutdown = () => {
   console.log('Shutdown requested — stopping background jobs');
   try {
-    eventController.abort();
+    backgroundWorker.abort();
   } catch (err) {
     console.error('Error aborting event processor', err);
   }

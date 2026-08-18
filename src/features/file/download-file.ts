@@ -55,6 +55,6 @@ export async function downloadFileHandler(c: any) {
   c.header('Content-Type', 'image/jpeg');
   c.header('Content-Disposition', 'attachment; filename="' + file.fileName + '"');
   
-  return c.body(file.contents)
+  return c.body(  file.contents)
 }
   

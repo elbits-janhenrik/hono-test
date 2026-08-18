@@ -1,4 +1,4 @@
-export function startEventProcessor(): AbortController {
+export function startBackgroundWorker(): AbortController {
   const controller = new AbortController();
   const { signal } = controller;
 
