@@ -2,17 +2,12 @@ import prisma from "../../database/prisma";
 import { z } from "zod";
 import { describeRoute, resolver } from "hono-openapi";
 
-export const downloadFileRequestSchema = z.object({
-  id: z.number(),
+export const downloadFileParamsSchema = z.object({
+  id: z.string()
 });
 
 export const downloadFileResultSchema = z.object({
-  id: z.number(),
-  fileName: z.string(),
-  size: z.number(),
-  type: z.string(),
-  description: z.string().optional(),
-  savedAs: z.string().optional(),
+  data: z.file(),
 });
 
 export function downloadFileDescription() {
@@ -33,7 +28,7 @@ export function downloadFileDescription() {
         description: "Invalid request",
         content: {
           "application/json": {
-            schema: resolver(z.object({ error: z.string() })),
+            schema: resolver(downloadFileResultSchema),
           },
         },
       },
@@ -44,16 +39,22 @@ export function downloadFileDescription() {
 // Handler
 
 export async function downloadFileHandler(c: any) {
-  const { id } = c.req.valid("json");
+  const { id } = c.req.valid("param");
+
+  const numericId = typeof id === "string" ? Number(id) : id;
+  if (Number.isNaN(numericId)) return null;
 
   const file = await prisma.fileUpload.findUnique({
-    where: { id },
+    where: { id: numericId },
   });
 
   if (!file) {
     return c.json({ error: "File not found" }, 404);
-  }
+  } 
 
-  return c.json(downloadFileResultSchema.parse(file));
+  c.header('Content-Type', 'image/jpeg');
+  c.header('Content-Disposition', 'attachment; filename="' + file.fileName + '"');
+  
+  return c.body(file.contents)
 }
   

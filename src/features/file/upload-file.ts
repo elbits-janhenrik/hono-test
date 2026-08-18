@@ -18,7 +18,7 @@ export const uploadFileResultSchema = z.object({
 
 export function uploadFileDescription() {
   return describeRoute({
-    tags: ["Upload"],
+    tags: ["Files"],
     summary: "Upload a file",
     description: "Upload a file via multipart/form-data",
     responses: {
