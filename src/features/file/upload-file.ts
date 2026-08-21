@@ -2,6 +2,8 @@ import prisma from "../../database/prisma";
 import { z } from "zod";
 import { describeRoute, resolver } from "hono-openapi";
 
+import { uploadFile } from "../../shared/azure-blob-container/file-storage";
+
 export const uploadFileRequestSchema = z.object({
   file: z.instanceof(File),
   message: z.string().optional(),
@@ -57,18 +59,28 @@ export async function uploadFileHandler(c: any) {
   const filename = `${Date.now()}-${file.name}`;
   // await writeFile(join(process.cwd(), 'uploads', filename), buffer)
 
-  const uploadedFile = await prisma.fileUpload.create({
-    data: {
-        fileName: filename,
-        contents: buffer,
-    },
-  });
+  // const uploadedFile = await prisma.fileUpload.create({
+  //   data: {
+  //       fileName: filename,
+  //       contents: buffer,
+  //   },
+  // });
+
+  // return c.json({
+  //   id: uploadedFile.id,
+  //   name: uploadedFile.fileName,
+  //   size: uploadedFile.contents.length,
+  //   type: file.type,
+  //   savedAs: filename,
+  // });
+
+  var uploadedFile = await uploadFile(file, { prefix: "uploads" });
 
   return c.json({
-    id: uploadedFile.id,
-    name: uploadedFile.fileName,
-    size: uploadedFile.contents.length,
+    //id: uploadedFile.id,
+    name: uploadedFile.blobName,
+    size: uploadedFile.size,
     type: file.type,
-    savedAs: filename,
+    savedAs: uploadedFile.url,
   });
 }

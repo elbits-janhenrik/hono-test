@@ -1,7 +1,7 @@
 import prisma from "../../database/prisma";
-import { User, Prisma } from "@prisma/client";
 import { z } from 'zod'
 import { describeRoute, resolver } from "hono-openapi";
+import { Prisma, User } from "../../database/generated/prisma/client";
 
 export const createUserRequestSchema = z.object({
   name: z.string(),
@@ -40,14 +40,14 @@ export async function createUserHandler(c: any) {
   const body = c.req.valid("json");
 
   try {
-    const createdUser: User = await prisma.user.create({
+    const createdUser : User = await prisma.user.create({
       data: { ...body}
     });
 
     const jwtToken = c.get('jwtPayload')
 
     const result = createdUser ? createUserResultSchema.parse(createdUser) : null;
-    return c.json(result, 201);
+    return c.json(result, 201); 
   } catch (err) {
     if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
       const target = (err.meta && (err.meta as any).target) ? (err.meta as any).target : undefined;

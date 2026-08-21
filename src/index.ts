@@ -1,7 +1,8 @@
 import 'dotenv/config'
 import { Hono as App } from 'hono'
 import { serve } from '@hono/node-server'
-import { registerRoutes } from './routes'
+
+import { setupApi } from './setup-api'
 import { startBackgroundWorker } from './features/jobs/background-worker';
 import { registerTelemetry, stopTelemetry, startTelemetry } from './middleware/telemetry';
 import { startEventInboxListener } from './features/event-inbox/event-inbox-processor';
@@ -12,7 +13,8 @@ startTelemetry();
 const app = new App();
 
 registerTelemetry(app);
-registerRoutes(app);
+
+setupApi(app);
 
 const backgroundWorker = startBackgroundWorker();
 

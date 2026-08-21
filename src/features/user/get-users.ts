@@ -1,5 +1,5 @@
 import prisma from '../../database/prisma'
-import { User } from '@prisma/client'
+import { Prisma, User } from "../../database/generated/prisma/client";
 import { describeRoute, resolver } from 'hono-openapi'
 import { z } from 'zod'
 

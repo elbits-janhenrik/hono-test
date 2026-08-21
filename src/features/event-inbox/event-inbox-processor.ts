@@ -22,7 +22,7 @@ export async function startEventInboxListener() {
   await subscriber.listenTo("app_events");
   console.log("Listening on app_events");
 }
-      
+
 // Publishing (can still use Prisma)
 export async function publishEvent(payload: object) {
   await subscriber.notify("app_events", payload);
